@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Random;
 
 /**
  *
@@ -22,7 +23,7 @@ public class Server {
     private DatagramPacket out, in;
     private Client client1;
     private Client client2;
-    private static String[][] game = new String[3][3];
+    private static String[][] game = new String[4][4];
 
     public Server() {
         try {
@@ -68,11 +69,7 @@ public class Server {
                 System.out.println(flag + " " + x1);
 
                 if (win(flag)) {
-                      if (flag.equals("x")) {
-                        write("win", client1.getPort(), client1.getIp());
-                    } else {
-                        write("end", client2.getPort(), client2.getIp());
-                    }
+                    
                 } else {
                     if (flag.equals("x")) {
                         write("play", client2.getPort(), client2.getIp());
@@ -90,9 +87,41 @@ public class Server {
     }
 
     private boolean win(String flag) {
-        if (game[0][0].equals(game[0][1].equals(game[0][2]))) {
+        
+        if (game[0][0].equals(game[0][3])) {
+            game[0][0]=null;
+            game[0][3]=null;
+             write("Pareja encontrada", client1.getPort(), client1.getIp());
+             write("Pareja encontrada", client2.getPort(), client2.getIp());
+        } else if(game[0][1].equals(game[1][1])) {
+            game[0][1]=null;
+            game[1][1]=null;
             return true;
-        }
+            }  else if(game[0][2].equals(game[3][0])) {
+                game[0][2]=null;
+                game[3][0]=null;
+                 return true;
+             }  else if(game[1][2].equals(game[2][2])) {
+                 game[1][2]=null;
+                  game[2][2]=null;
+                 return true;
+                 }  else if(game[2][0].equals(game[2][1])) {
+                     game[2][0]=null;
+                     game[2][1]=null;
+                 return true;
+                    }else if(game[2][3].equals(game[3][3])) {
+                        game[2][3]=null;
+                        game[3][3]=null;
+                        return true;
+                    }   else if(game[3][1].equals(game[1][0])) {
+                        game[3][1]=null;
+                        game[1][0]=null;
+                        return true;
+                     }      else if(game[1][3].equals(game[3][2])) {
+                         game[1][3]=null;
+                         game[3][2]=null;
+                             return true;
+                                  }
 
         return false;
     }
@@ -107,17 +136,39 @@ public class Server {
     }
 
     public void print() {
-        for (var i : game) {
+     
+        for (var i : game) { 
+                game[0][0]="1";
+                game[0][1]="3";
+                game[0][2]="2";
+                game[0][3]="1";
+                game[1][0]="7";
+                game[1][1]="3";
+                game[1][2]="4";
+                game[1][3]="8";
+                game[2][0]="5";
+                game[2][1]="5";
+                game[2][2]="4";
+                game[2][3]="6";
+                game[3][0]="2";
+                game[3][1]="7";
+                game[3][2]="8";
+                game[3][3]="6";
+            
             for (var j : i) {
-                System.out.print(j + "|");
+                
+                System.out.print("|"+j+"|");
             }
             System.out.println("");
         }
     }
+    
+    
 
     static {
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
+        for (var i = 0; i < 4; i++) {
+            for (var j = 0; j < 4; j++) {
+               
                 game[i][j] = new String();
             }
         }

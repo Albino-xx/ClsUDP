@@ -65,7 +65,9 @@ public class Client extends Thread{
                 send();
                 break;
             case "play":
+                 for (var i = 0; i < 2; i++) {
                 send();
+                 }
             case "wind":
                 System.out.println("win");
             case "end":
@@ -77,10 +79,12 @@ public class Client extends Thread{
     }
 
     public void send() {
+       
         var text = JOptionPane.showInputDialog("x,y",flag);
-        var data = "play," + flag + "," + text ;
+        var data = "play," + flag + "," + text ;     
         write(data);
-    }
+         }
+   
 
     private void write(String text) {
 
